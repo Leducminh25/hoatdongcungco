@@ -1,0 +1,5370 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Giải mã ô chữ - Lệnh lặp FOR</title>
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+
+    --blue:#2c7dc6;
+    --blue-dark:#1e63a4;
+
+    --green:#2caf70;
+    --green-dark:#188d57;
+
+    --teal:#418792;
+    --teal-dark:#34717c;
+
+    --orange:#efa337;
+    --red:#df5757;
+
+    --purple:#7062d8;
+    --purple-dark:#5547c3;
+
+    --yellow:#ffd052;
+    --yellow-light:#fff0ae;
+    --yellow-dark:#d69d13;
+
+    --text:#304951;
+    --muted:#6d838c;
+
+    --border:#cce1e7;
+
+    --shadow:
+        0 10px 30px
+        rgba(35,74,90,.14);
+}
+
+
+/* =========================================================
+   HTML / BODY
+========================================================= */
+
+html,
+body{
+
+    width:100%;
+    height:100%;
+
+    overflow:hidden;
+}
+
+
+body{
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color:var(--text);
+
+    background:
+
+        radial-gradient(
+            circle at 8% 5%,
+            rgba(255,255,255,.98),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 95% 90%,
+            rgba(165,218,229,.34),
+            transparent 30%
+        ),
+
+        linear-gradient(
+            145deg,
+            #eef9fc,
+            #dceef3
+        );
+}
+
+
+/* =========================================================
+   NỀN TRANG TRÍ
+========================================================= */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.05),
+            transparent
+        ),
+
+        repeating-linear-gradient(
+            90deg,
+            rgba(78,131,144,.025) 0px,
+            rgba(78,131,144,.025) 1px,
+            transparent 1px,
+            transparent 80px
+        );
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+
+    position:relative;
+
+    z-index:2;
+
+    width:100vw;
+    height:100vh;
+
+    padding:
+        clamp(
+            6px,
+            .9vw,
+            14px
+        );
+
+    display:grid;
+
+    grid-template-rows:
+        auto
+        minmax(0,1fr);
+
+    gap:
+        clamp(
+            6px,
+            .8vh,
+            10px
+        );
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header{
+
+    min-height:
+        clamp(
+            66px,
+            8.3vh,
+            82px
+        );
+
+    padding:
+        7px
+        15px;
+
+    display:grid;
+
+    grid-template-columns:
+        auto
+        minmax(0,1fr)
+        auto;
+
+    align-items:center;
+
+    gap:15px;
+
+    background:
+        rgba(255,255,255,.96);
+
+    border:
+        3px solid
+        #c9e1e7;
+
+    border-radius:22px;
+
+    box-shadow:
+        var(--shadow);
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand{
+
+    display:flex;
+    align-items:center;
+    gap:9px;
+}
+
+
+.brand-icon{
+
+    width:
+        clamp(
+            47px,
+            4vw,
+            58px
+        );
+
+    aspect-ratio:1;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffd760,
+            #f1a53a
+        );
+
+    box-shadow:
+        0 4px 0
+        rgba(149,93,12,.14);
+
+    font-size:
+        clamp(
+            25px,
+            2vw,
+            31px
+        );
+}
+
+
+.brand-text{
+
+    color:#755018;
+
+    font-size:
+        clamp(
+            10px,
+            .85vw,
+            14px
+        );
+
+    line-height:1.05;
+
+    font-weight:950;
+
+    white-space:nowrap;
+}
+
+
+/* =========================================================
+   HEADER TITLE
+========================================================= */
+
+.header-center{
+
+    min-width:0;
+    text-align:center;
+}
+
+
+.header-center h1{
+
+    color:#69473c;
+
+    font-size:
+        clamp(
+            23px,
+            2.15vw,
+            35px
+        );
+
+    line-height:1.04;
+
+    font-weight:950;
+
+    white-space:nowrap;
+}
+
+
+.header-center h1 span{
+
+    color:var(--blue);
+}
+
+
+.header-center p{
+
+    margin-top:3px;
+
+    color:#6c838b;
+
+    font-size:
+        clamp(
+            10px,
+            .9vw,
+            14px
+        );
+
+    font-weight:750;
+}
+
+
+/* =========================================================
+   HEADER BUTTONS
+========================================================= */
+
+.header-actions{
+
+    display:flex;
+    gap:7px;
+}
+
+
+.header-button{
+
+    height:42px;
+
+    padding:
+        0
+        13px;
+
+    border:none;
+
+    border-radius:11px;
+
+    color:white;
+
+    font-size:
+        clamp(
+            11px,
+            .85vw,
+            14px
+        );
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    transition:.15s;
+}
+
+
+.header-button:hover{
+
+    transform:
+        translateY(-2px);
+}
+
+
+.full-button{
+
+    background:
+        linear-gradient(
+            135deg,
+            #3589d5,
+            #236db5
+        );
+}
+
+
+.reset-button{
+
+    background:
+        linear-gradient(
+            135deg,
+            #e86666,
+            #cf4a4a
+        );
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+
+    min-height:0;
+
+    display:grid;
+
+    grid-template-columns:
+        clamp(
+            165px,
+            14.3vw,
+            205px
+        )
+        minmax(0,1fr);
+
+    gap:
+        clamp(
+            7px,
+            .85vw,
+            12px
+        );
+}
+
+
+/* =========================================================
+   PANEL
+========================================================= */
+
+.panel{
+
+    min-height:0;
+
+    background:
+        rgba(255,255,255,.96);
+
+    border:
+        3px solid
+        var(--border);
+
+    border-radius:21px;
+
+    box-shadow:
+        var(--shadow);
+
+    overflow:hidden;
+}
+
+
+/* =========================================================
+   CỘT CHỌN CÂU
+========================================================= */
+
+.navigation{
+
+    min-height:0;
+
+    padding:8px;
+
+    display:grid;
+
+    grid-template-rows:
+        auto
+        repeat(8,minmax(0,1fr))
+        auto;
+
+    gap:
+        clamp(
+            4px,
+            .55vh,
+            7px
+        );
+}
+
+
+.navigation-title{
+
+    min-height:39px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #478e9a,
+            #347681
+        );
+
+    color:white;
+
+    font-size:
+        clamp(
+            14px,
+            1.05vw,
+            18px
+        );
+
+    font-weight:950;
+}
+
+
+/* =========================================================
+   NÚT CÂU HỎI
+========================================================= */
+
+.question-button{
+
+    position:relative;
+
+    min-height:0;
+
+    border:
+        2px solid
+        #d3e4e9;
+
+    border-radius:13px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f0f7f9
+        );
+
+    color:#4d6d76;
+
+    font-size:
+        clamp(
+            15px,
+            1.3vw,
+            21px
+        );
+
+    font-weight:950;
+
+    cursor:pointer;
+
+    transition:.15s;
+}
+
+
+.question-button:hover{
+
+    transform:
+        translateX(2px);
+
+    border-color:#8ebdca;
+}
+
+
+.question-button.active{
+
+    background:
+        linear-gradient(
+            135deg,
+            #398fd7,
+            #256fb4
+        );
+
+    border-color:#2775ba;
+
+    color:white;
+}
+
+
+.question-button.correct{
+
+    background:
+        linear-gradient(
+            135deg,
+            #47be80,
+            #24995f
+        );
+
+    border-color:#50b67f;
+
+    color:white;
+}
+
+
+.question-button.timeout:not(.correct){
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff8ea,
+            #ffe8c5
+        );
+
+    border-color:#edae63;
+
+    color:#93601e;
+}
+
+
+.status-dot{
+
+    position:absolute;
+
+    width:10px;
+    height:10px;
+
+    top:8px;
+    right:8px;
+
+    border-radius:50%;
+
+    background:#cbdadd;
+}
+
+
+.question-button.active
+.status-dot,
+.question-button.correct
+.status-dot{
+
+    background:white;
+}
+
+
+/* =========================================================
+   TIẾN ĐỘ
+========================================================= */
+
+.progress{
+
+    padding:
+        7px
+        5px;
+
+    text-align:center;
+
+    border-radius:11px;
+
+    background:#eef7f9;
+
+    border:
+        1px solid
+        #d3e6eb;
+
+    color:#6c8189;
+
+    font-size:
+        clamp(
+            10px,
+            .78vw,
+            12px
+        );
+
+    font-weight:850;
+}
+
+
+.progress strong{
+
+    display:block;
+
+    margin-top:2px;
+
+    color:var(--blue);
+
+    font-size:
+        clamp(
+            18px,
+            1.45vw,
+            24px
+        );
+
+    font-weight:950;
+}
+
+
+/* =========================================================
+   KHU VỰC GAME
+========================================================= */
+
+.game{
+
+    min-height:0;
+
+    padding:
+        clamp(
+            7px,
+            .7vw,
+            10px
+        );
+
+    display:grid;
+
+    /* phần trên ngắn, phần ô chữ rộng */
+
+    grid-template-rows:
+        minmax(
+            142px,
+            .27fr
+        )
+        minmax(
+            0,
+            .73fr
+        );
+
+    gap:
+        clamp(
+            6px,
+            .7vh,
+            9px
+        );
+}
+
+
+/* =========================================================
+   QUESTION AREA
+========================================================= */
+
+.question-area{
+
+    min-height:0;
+
+    padding:
+        8px
+        14px;
+
+    display:grid;
+
+    grid-template-columns:
+        clamp(
+            90px,
+            9vw,
+            122px
+        )
+        minmax(0,1fr);
+
+    gap:11px;
+
+    border:
+        2px solid
+        #d3e7ed;
+
+    border-radius:17px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f9fdff,
+            #eef7fa
+        );
+}
+
+
+/* =========================================================
+   TIMER
+========================================================= */
+
+.timer-side{
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    gap:4px;
+}
+
+
+.timer-ring{
+
+    --progress:100%;
+
+    position:relative;
+
+    width:
+        clamp(
+            78px,
+            7vw,
+            100px
+        );
+
+    aspect-ratio:1;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:
+
+        conic-gradient(
+            var(--green)
+            var(--progress),
+            #dce8eb
+            0
+        );
+
+    box-shadow:
+        0 5px 14px
+        rgba(48,101,113,.12);
+}
+
+
+.timer-ring::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:76%;
+    height:76%;
+
+    border-radius:50%;
+
+    background:white;
+
+    box-shadow:
+        inset 0 2px 7px
+        rgba(46,83,96,.08);
+}
+
+
+.timer-ring.warning{
+
+    background:
+
+        conic-gradient(
+            var(--orange)
+            var(--progress),
+            #dce8eb
+            0
+        );
+}
+
+
+.timer-ring.danger{
+
+    background:
+
+        conic-gradient(
+            var(--red)
+            var(--progress),
+            #dce8eb
+            0
+        );
+}
+
+
+.timer-number{
+
+    position:relative;
+
+    z-index:2;
+
+    color:#345761;
+
+    font-size:
+        clamp(
+            27px,
+            2.5vw,
+            40px
+        );
+
+    font-weight:950;
+}
+
+
+.timer-caption{
+
+    color:#72858d;
+
+    font-size:
+        clamp(
+            9px,
+            .75vw,
+            12px
+        );
+
+    font-weight:900;
+}
+
+
+/* =========================================================
+   QUESTION CONTENT
+========================================================= */
+
+.question-content{
+
+    min-width:0;
+
+    display:grid;
+
+    grid-template-rows:
+        auto
+        minmax(0,1fr)
+        auto
+        auto;
+
+    gap:4px;
+}
+
+
+.question-tag{
+
+    width:max-content;
+
+    min-width:86px;
+
+    height:29px;
+
+    padding:
+        0
+        10px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:9px;
+
+    background:#deebf8;
+
+    color:#286fb0;
+
+    font-size:
+        clamp(
+            12px,
+            .9vw,
+            15px
+        );
+
+    font-weight:950;
+}
+
+
+.question-text{
+
+    min-height:0;
+
+    padding:
+        1px
+        0;
+
+    display:flex;
+
+    align-items:center;
+
+    color:#314b54;
+
+    font-size:
+        clamp(
+            17px,
+            1.55vw,
+            25px
+        );
+
+    line-height:1.22;
+
+    font-weight:850;
+}
+
+
+/* =========================================================
+   GỢI Ý
+========================================================= */
+
+.hint-box{
+
+    min-height:29px;
+
+    padding:
+        4px
+        9px;
+
+    border-radius:9px;
+
+    border:
+        1px solid
+        #ecd58e;
+
+    background:#fff8dc;
+
+    color:#745815;
+
+    font-size:
+        clamp(
+            11px,
+            .86vw,
+            14px
+        );
+
+    line-height:1.25;
+
+    font-weight:750;
+
+    display:none;
+
+    align-items:center;
+}
+
+
+.hint-box.show{
+
+    display:flex;
+}
+
+
+/* =========================================================
+   ANSWER ROW
+========================================================= */
+
+.answer-row{
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(130px,1fr)
+        auto
+        auto
+        auto;
+
+    gap:6px;
+}
+
+
+.answer-input{
+
+    min-width:0;
+
+    height:
+        clamp(
+            35px,
+            4.4vh,
+            42px
+        );
+
+    padding:
+        0
+        12px;
+
+    border:
+        2px solid
+        #bfd9e1;
+
+    border-radius:9px;
+
+    outline:none;
+
+    background:white;
+
+    color:#314c55;
+
+    font-family:inherit;
+
+    font-size:
+        clamp(
+            15px,
+            1.2vw,
+            19px
+        );
+
+    font-weight:900;
+
+    text-transform:uppercase;
+}
+
+
+.answer-input:focus{
+
+    border-color:var(--blue);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(44,125,198,.1);
+}
+
+
+.action-button{
+
+    height:
+        clamp(
+            35px,
+            4.4vh,
+            42px
+        );
+
+    padding:
+        0
+        clamp(
+            9px,
+            .9vw,
+            14px
+        );
+
+    border:none;
+
+    border-radius:9px;
+
+    color:white;
+
+    white-space:nowrap;
+
+    font-size:
+        clamp(
+            10px,
+            .85vw,
+            14px
+        );
+
+    font-weight:950;
+
+    cursor:pointer;
+
+    transition:.14s;
+}
+
+
+.action-button:hover{
+
+    transform:
+        translateY(-1px);
+}
+
+
+.hint-button{
+
+    background:
+        linear-gradient(
+            135deg,
+            #f2ad42,
+            #df8e24
+        );
+}
+
+
+.timer-button{
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--purple),
+            var(--purple-dark)
+        );
+}
+
+
+.submit-button{
+
+    background:
+        linear-gradient(
+            135deg,
+            #2eae73,
+            #188955
+        );
+}
+
+
+/* =========================================================
+   CROSSWORD PANEL
+========================================================= */
+
+.crossword-panel{
+
+    min-height:0;
+
+    padding:
+        clamp(
+            8px,
+            .8vw,
+            12px
+        );
+
+    display:grid;
+
+    grid-template-rows:
+        auto
+        minmax(0,1fr)
+        auto;
+
+    gap:
+        clamp(
+            5px,
+            .6vh,
+            8px
+        );
+
+    border:
+        2px solid
+        #d2e6eb;
+
+    border-radius:17px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.98),
+            rgba(239,248,250,.98)
+        );
+}
+
+
+/* =========================================================
+   CROSSWORD HEADER
+========================================================= */
+
+.crossword-header{
+
+    min-height:27px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:space-between;
+
+    gap:10px;
+}
+
+
+.crossword-header h2{
+
+    color:#42616b;
+
+    font-size:
+        clamp(
+            14px,
+            1.15vw,
+            19px
+        );
+
+    font-weight:950;
+}
+
+
+.crossword-note{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:5px;
+
+    color:#758990;
+
+    font-size:
+        clamp(
+            9px,
+            .72vw,
+            11px
+        );
+
+    font-weight:800;
+}
+
+
+.gold-example{
+
+    width:16px;
+    height:16px;
+
+    border-radius:4px;
+
+    background:var(--yellow);
+
+    border:
+        2px solid
+        var(--yellow-dark);
+}
+
+
+/* =========================================================
+   Ô CHỮ
+========================================================= */
+
+.crossword{
+
+    min-height:0;
+
+    display:grid;
+
+    grid-template-rows:
+        repeat(
+            8,
+            minmax(0,1fr)
+        );
+
+    gap:
+        clamp(
+            3px,
+            .4vh,
+            6px
+        );
+
+    align-items:stretch;
+}
+
+
+.cross-row{
+
+    min-height:0;
+
+    display:grid;
+
+    grid-template-columns:
+        34px
+        minmax(0,1fr);
+
+    align-items:center;
+
+    gap:7px;
+
+    cursor:pointer;
+}
+
+
+.row-number{
+
+    height:
+        clamp(
+            29px,
+            4.2vh,
+            43px
+        );
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:8px;
+
+    background:#e4eff2;
+
+    color:#55737b;
+
+    font-size:
+        clamp(
+            12px,
+            .95vw,
+            16px
+        );
+
+    font-weight:950;
+}
+
+
+.cross-row.active
+.row-number{
+
+    background:var(--blue);
+
+    color:white;
+}
+
+
+.cross-row.solved
+.row-number{
+
+    background:var(--green);
+
+    color:white;
+}
+
+
+.letter-grid{
+
+    height:100%;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            12,
+            minmax(0,1fr)
+        );
+
+    gap:
+        clamp(
+            3px,
+            .38vw,
+            7px
+        );
+
+    align-items:center;
+}
+
+
+.letter-cell{
+
+    width:100%;
+
+    aspect-ratio:1;
+
+    max-height:
+        clamp(
+            31px,
+            4.7vh,
+            46px
+        );
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    justify-self:stretch;
+
+    border-radius:
+        clamp(
+            5px,
+            .5vw,
+            8px
+        );
+
+    font-size:
+        clamp(
+            16px,
+            1.48vw,
+            25px
+        );
+
+    line-height:1;
+
+    font-weight:950;
+
+    transition:.15s;
+}
+
+
+.letter-cell.blank{
+
+    background:transparent;
+}
+
+
+.letter-cell.normal{
+
+    background:#f6fbfc;
+
+    border:
+        2px solid
+        #69c796;
+
+    color:transparent;
+}
+
+
+.letter-cell.secret{
+
+    background:
+        var(--yellow-light);
+
+    border:
+        2px solid
+        var(--yellow-dark);
+
+    color:transparent;
+
+    box-shadow:
+        0 2px 5px
+        rgba(180,126,10,.08);
+}
+
+
+.cross-row.solved
+.letter-cell.normal{
+
+    color:#294851;
+
+    background:#e9f8f0;
+
+    border-color:#62c58f;
+}
+
+
+.cross-row.solved
+.letter-cell.secret{
+
+    color:#68480e;
+
+    background:var(--yellow);
+
+    border-color:var(--yellow-dark);
+
+    transform:
+        scale(1.05);
+
+    box-shadow:
+        0 3px 8px
+        rgba(176,124,13,.2);
+}
+
+
+/* =========================================================
+   THANH HÀNG DỌC
+========================================================= */
+
+.secret-bar{
+
+    min-height:
+        clamp(
+            45px,
+            6vh,
+            60px
+        );
+
+    padding:
+        5px
+        9px;
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(260px,.9fr)
+        minmax(340px,.8fr);
+
+    align-items:center;
+
+    gap:10px;
+
+    border:
+        2px solid
+        #eccb61;
+
+    border-radius:12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff9de,
+            #ffefb3
+        );
+}
+
+
+/* =========================================================
+   BÊN TRÁI HÀNG DỌC
+========================================================= */
+
+.secret-left{
+
+    min-width:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:
+        clamp(
+            8px,
+            1vw,
+            15px
+        );
+}
+
+
+.secret-label{
+
+    color:#81601b;
+
+    font-size:
+        clamp(
+            10px,
+            .82vw,
+            13px
+        );
+
+    font-weight:950;
+
+    white-space:nowrap;
+}
+
+
+.secret-word{
+
+    color:#a47d2c;
+
+    font-size:
+        clamp(
+            21px,
+            1.9vw,
+            32px
+        );
+
+    line-height:1;
+
+    letter-spacing:
+        clamp(
+            4px,
+            .65vw,
+            10px
+        );
+
+    font-weight:950;
+
+    white-space:nowrap;
+}
+
+
+.secret-word.complete{
+
+    color:#75490f;
+
+    letter-spacing:2px;
+
+    animation:
+        secretPop
+        .45s ease;
+}
+
+
+@keyframes secretPop{
+
+    0%{
+
+        transform:
+            scale(.75);
+    }
+
+    70%{
+
+        transform:
+            scale(1.12);
+    }
+
+    100%{
+
+        transform:
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   TRẢ LỜI HÀNG DỌC SỚM
+========================================================= */
+
+.secret-answer-area{
+
+    min-width:0;
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(130px,1fr)
+        auto;
+
+    gap:6px;
+}
+
+
+.secret-input{
+
+    min-width:0;
+
+    height:
+        clamp(
+            33px,
+            4vh,
+            38px
+        );
+
+    padding:
+        0
+        10px;
+
+    border:
+        2px solid
+        #ddb343;
+
+    border-radius:9px;
+
+    outline:none;
+
+    background:
+        rgba(255,255,255,.95);
+
+    color:#654814;
+
+    font-family:inherit;
+
+    font-size:
+        clamp(
+            12px,
+            .95vw,
+            16px
+        );
+
+    font-weight:900;
+
+    text-transform:uppercase;
+}
+
+
+.secret-input:focus{
+
+    border-color:#ce900c;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(211,153,18,.13);
+}
+
+
+.secret-input:disabled{
+
+    background:#fff4bf;
+
+    color:#774c0c;
+}
+
+
+.secret-submit{
+
+    height:
+        clamp(
+            33px,
+            4vh,
+            38px
+        );
+
+    padding:
+        0
+        12px;
+
+    border:none;
+
+    border-radius:9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #dfa31f,
+            #bd7909
+        );
+
+    color:white;
+
+    font-size:
+        clamp(
+            10px,
+            .78vw,
+            13px
+        );
+
+    font-weight:950;
+
+    white-space:nowrap;
+
+    cursor:pointer;
+
+    transition:.14s;
+}
+
+
+.secret-submit:hover{
+
+    transform:
+        translateY(-1px);
+
+    filter:
+        brightness(1.05);
+}
+
+
+.secret-submit:disabled{
+
+    cursor:default;
+
+    transform:none;
+
+    background:#af9a69;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+
+    position:fixed;
+
+    left:50%;
+    top:50%;
+
+    z-index:2000;
+
+    width:
+        min(
+            510px,
+            86vw
+        );
+
+    padding:
+        18px
+        22px;
+
+    transform:
+        translate(-50%,-50%)
+        scale(.86);
+
+    border:
+        4px solid
+        var(--green);
+
+    border-radius:18px;
+
+    background:white;
+
+    box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.24);
+
+    text-align:center;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.18s;
+}
+
+
+.toast.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+    transform:
+        translate(-50%,-50%)
+        scale(1);
+}
+
+
+.toast-icon{
+
+    font-size:41px;
+}
+
+
+.toast-title{
+
+    margin-top:2px;
+
+    color:#344e57;
+
+    font-size:24px;
+
+    font-weight:950;
+}
+
+
+.toast-text{
+
+    margin-top:5px;
+
+    color:#657b83;
+
+    font-size:14px;
+
+    line-height:1.4;
+
+    font-weight:700;
+}
+
+
+/* =========================================================
+   WIN
+========================================================= */
+
+.win-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:2500;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+        rgba(22,42,53,.55);
+
+    backdrop-filter:
+        blur(5px);
+}
+
+
+.win-overlay.show{
+
+    display:flex;
+}
+
+
+.win-box{
+
+    width:
+        min(
+            680px,
+            91vw
+        );
+
+    max-height:90vh;
+
+    padding:24px;
+
+    overflow-y:auto;
+
+    border:
+        5px solid
+        #57bd88;
+
+    border-radius:24px;
+
+    background:white;
+
+    box-shadow:
+        0 25px 70px
+        rgba(0,0,0,.28);
+
+    text-align:center;
+
+    animation:
+        winPop
+        .3s ease;
+}
+
+
+@keyframes winPop{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            scale(.82);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            scale(1);
+    }
+}
+
+
+.win-icon{
+
+    font-size:61px;
+}
+
+
+.win-box h2{
+
+    color:#315d49;
+
+    font-size:
+        clamp(
+            25px,
+            2.4vw,
+            37px
+        );
+
+    font-weight:950;
+}
+
+
+.final-word{
+
+    margin:
+        7px
+        0;
+
+    color:#925b10;
+
+    font-size:
+        clamp(
+            37px,
+            4vw,
+            55px
+        );
+
+    font-weight:950;
+
+    letter-spacing:2px;
+}
+
+
+.final-description{
+
+    color:#627982;
+
+    font-size:
+        clamp(
+            13px,
+            1vw,
+            16px
+        );
+
+    line-height:1.45;
+
+    font-weight:700;
+}
+
+
+.summary{
+
+    margin-top:13px;
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:7px;
+
+    text-align:left;
+}
+
+
+.summary-item{
+
+    padding:
+        8px
+        10px;
+
+    border:
+        1px solid
+        #d8e7eb;
+
+    border-radius:9px;
+
+    background:#f1f7f9;
+
+    color:#4b646d;
+
+    font-size:
+        clamp(
+            11px,
+            .85vw,
+            13px
+        );
+
+    line-height:1.35;
+}
+
+
+.summary-item b{
+
+    color:#2876b8;
+}
+
+
+.close-win{
+
+    margin-top:14px;
+
+    min-width:150px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:var(--blue);
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:950;
+
+    cursor:pointer;
+}
+
+
+/* =========================================================
+   CONFETTI
+========================================================= */
+
+.confetti{
+
+    position:fixed;
+
+    top:-20px;
+
+    z-index:3000;
+
+    width:10px;
+    height:16px;
+
+    pointer-events:none;
+
+    animation:
+        fall linear forwards;
+}
+
+
+@keyframes fall{
+
+    to{
+
+        transform:
+            translateY(110vh)
+            rotate(800deg);
+    }
+}
+
+
+/* =========================================================
+   MÀN HÌNH THẤP
+========================================================= */
+
+@media(max-height:720px){
+
+    .app{
+
+        padding:5px;
+
+        gap:5px;
+    }
+
+
+    .header{
+
+        min-height:58px;
+
+        padding:
+            4px
+            10px;
+    }
+
+
+    .brand-icon{
+
+        width:42px;
+
+        border-radius:11px;
+    }
+
+
+    .game{
+
+        padding:5px;
+
+        gap:5px;
+
+        grid-template-rows:
+            125px
+            minmax(0,1fr);
+    }
+
+
+    .question-area{
+
+        padding:
+            5px
+            9px;
+
+        gap:7px;
+
+        grid-template-columns:
+            78px
+            minmax(0,1fr);
+    }
+
+
+    .timer-ring{
+
+        width:66px;
+    }
+
+
+    .timer-number{
+
+        font-size:22px;
+    }
+
+
+    .question-tag{
+
+        height:25px;
+    }
+
+
+    .question-text{
+
+        font-size:
+            clamp(
+                15px,
+                1.35vw,
+                20px
+            );
+
+        line-height:1.15;
+    }
+
+
+    .hint-box{
+
+        min-height:23px;
+
+        padding:
+            2px
+            7px;
+    }
+
+
+    .answer-input,
+    .action-button{
+
+        height:31px;
+    }
+
+
+    .crossword-panel{
+
+        padding:5px;
+    }
+
+
+    .crossword{
+
+        gap:2px;
+    }
+
+
+    .letter-cell{
+
+        max-height:30px;
+
+        font-size:17px;
+    }
+
+
+    .row-number{
+
+        height:29px;
+    }
+
+
+    .secret-bar{
+
+        min-height:37px;
+
+        padding:
+            2px
+            6px;
+
+        gap:6px;
+    }
+
+
+    .secret-input,
+    .secret-submit{
+
+        height:29px;
+    }
+
+
+    .secret-word{
+
+        font-size:
+            clamp(
+                17px,
+                1.6vw,
+                25px
+            );
+    }
+
+}
+
+
+/* =========================================================
+   MÀN HÌNH HẸP
+========================================================= */
+
+@media(max-width:1050px){
+
+    .main{
+
+        grid-template-columns:
+            135px
+            minmax(0,1fr);
+    }
+
+
+    .header-actions{
+
+        display:none;
+    }
+
+
+    .question-button{
+
+        font-size:15px;
+    }
+
+
+    .secret-bar{
+
+        grid-template-columns:
+            1fr
+            1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header class="header">
+
+
+    <div class="brand">
+
+        <div class="brand-icon">
+
+            🧠
+
+        </div>
+
+
+        <div class="brand-text">
+
+            THỬ THÁCH<br>
+            KIẾN THỨC
+
+        </div>
+
+    </div>
+
+
+
+    <div class="header-center">
+
+        <h1>
+
+            GIẢI MÃ Ô CHỮ –
+            <span>LỆNH LẶP FOR</span>
+
+        </h1>
+
+
+        <p>
+
+            Chọn câu hỏi • 25 giây suy nghĩ • Mở hàng ngang • Có thể đoán hàng dọc sớm
+
+        </p>
+
+    </div>
+
+
+
+    <div class="header-actions">
+
+
+        <button
+            class="header-button full-button"
+            onclick="toggleFullscreen()"
+        >
+
+            ⛶ Toàn màn hình
+
+        </button>
+
+
+        <button
+            class="header-button reset-button"
+            onclick="resetGame()"
+        >
+
+            ↻ Chơi lại
+
+        </button>
+
+
+    </div>
+
+
+</header>
+
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+
+<!-- =========================================================
+     CHỌN CÂU
+========================================================= -->
+
+<aside class="panel navigation">
+
+
+    <div class="navigation-title">
+
+        🎯 CHỌN CÂU
+
+    </div>
+
+
+
+    <button
+        class="question-button"
+        data-index="0"
+        onclick="selectQuestion(0)"
+    >
+
+        CÂU 1
+
+        <span class="status-dot"></span>
+
+    </button>
+
+
+
+    <button
+        class="question-button"
+        data-index="1"
+        onclick="selectQuestion(1)"
+    >
+
+        CÂU 2
+
+        <span class="status-dot"></span>
+
+    </button>
+
+
+
+    <button
+        class="question-button"
+        data-index="2"
+        onclick="selectQuestion(2)"
+    >
+
+        CÂU 3
+
+        <span class="status-dot"></span>
+
+    </button>
+
+
+
+    <button
+        class="question-button"
+        data-index="3"
+        onclick="selectQuestion(3)"
+    >
+
+        CÂU 4
+
+        <span class="status-dot"></span>
+
+    </button>
+
+
+
+    <button
+        class="question-button"
+        data-index="4"
+        onclick="selectQuestion(4)"
+    >
+
+        CÂU 5
+
+        <span class="status-dot"></span>
+
+    </button>
+
+
+
+    <button
+        class="question-button"
+        data-index="5"
+        onclick="selectQuestion(5)"
+    >
+
+        CÂU 6
+
+        <span class="status-dot"></span>
+
+    </button>
+
+
+
+    <button
+        class="question-button"
+        data-index="6"
+        onclick="selectQuestion(6)"
+    >
+
+        CÂU 7
+
+        <span class="status-dot"></span>
+
+    </button>
+
+
+
+    <button
+        class="question-button"
+        data-index="7"
+        onclick="selectQuestion(7)"
+    >
+
+        CÂU 8
+
+        <span class="status-dot"></span>
+
+    </button>
+
+
+
+    <div class="progress">
+
+        HOÀN THÀNH
+
+        <strong id="progressText">
+
+            0 / 8
+
+        </strong>
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =========================================================
+     GAME
+========================================================= -->
+
+<section class="panel game">
+
+
+<!-- =========================================================
+     QUESTION AREA
+========================================================= -->
+
+<div class="question-area">
+
+
+    <div class="timer-side">
+
+
+        <div
+            class="timer-ring"
+            id="timerRing"
+            style="--progress:100%"
+        >
+
+            <span
+                class="timer-number"
+                id="timerNumber"
+            >
+
+                25
+
+            </span>
+
+        </div>
+
+
+        <div class="timer-caption">
+
+            GIÂY SUY NGHĨ
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="question-content">
+
+
+        <div
+            class="question-tag"
+            id="questionTag"
+        >
+
+            CÂU 1
+
+        </div>
+
+
+        <div
+            class="question-text"
+            id="questionText"
+        >
+
+        </div>
+
+
+        <div
+            class="hint-box"
+            id="hintBox"
+        >
+
+        </div>
+
+
+        <div class="answer-row">
+
+
+            <input
+                id="answerInput"
+                class="answer-input"
+                type="text"
+                autocomplete="off"
+                placeholder="NHẬP TỪ KHÓA..."
+            >
+
+
+            <button
+                class="action-button hint-button"
+                onclick="showHint()"
+            >
+
+                💡 GỢI Ý
+
+            </button>
+
+
+            <button
+                class="action-button timer-button"
+                id="timerButton"
+                onclick="toggleTimer()"
+            >
+
+                ▶ 25 GIÂY
+
+            </button>
+
+
+            <button
+                class="action-button submit-button"
+                onclick="submitAnswer()"
+            >
+
+                ✓ TRẢ LỜI
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     CROSSWORD
+========================================================= -->
+
+<div class="crossword-panel">
+
+
+    <div class="crossword-header">
+
+
+        <h2>
+
+            🔐 GIẢI MÃ CÁC HÀNG NGANG
+
+        </h2>
+
+
+        <div class="crossword-note">
+
+            <span class="gold-example"></span>
+
+            Ô hàng dọc bí mật
+
+        </div>
+
+
+    </div>
+
+
+
+    <div
+        class="crossword"
+        id="crossword"
+    >
+
+    </div>
+
+
+
+    <!-- =====================================================
+         TRẢ LỜI HÀNG DỌC
+    ====================================================== -->
+
+    <div class="secret-bar">
+
+
+        <div class="secret-left">
+
+
+            <span class="secret-label">
+
+                TỪ KHÓA HÀNG DỌC
+
+            </span>
+
+
+            <span
+                class="secret-word"
+                id="secretWord"
+            >
+
+                ? ? ? ? ? ? ? ?
+
+            </span>
+
+
+        </div>
+
+
+
+        <div class="secret-answer-area">
+
+
+            <input
+                type="text"
+                id="secretInput"
+                class="secret-input"
+                autocomplete="off"
+                placeholder="ĐOÁN TỪ KHÓA..."
+            >
+
+
+            <button
+                class="secret-submit"
+                id="secretButton"
+                onclick="submitSecretAnswer()"
+            >
+
+                🔐 TRẢ LỜI HÀNG DỌC
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</section>
+
+
+</main>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div
+    class="toast"
+    id="toast"
+>
+
+
+    <div
+        class="toast-icon"
+        id="toastIcon"
+    >
+
+        ✅
+
+    </div>
+
+
+    <div
+        class="toast-title"
+        id="toastTitle"
+    >
+
+        Chính xác!
+
+    </div>
+
+
+    <div
+        class="toast-text"
+        id="toastText"
+    >
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     WIN SCREEN
+========================================================= -->
+
+<div
+    class="win-overlay"
+    id="winOverlay"
+>
+
+
+    <div class="win-box">
+
+
+        <div class="win-icon">
+
+            🏆
+
+        </div>
+
+
+        <h2 id="winTitle">
+
+            CHÚC MỪNG CÁC EM!
+
+        </h2>
+
+
+        <div class="final-word">
+
+            LẬP TRÌNH
+
+        </div>
+
+
+        <div
+            class="final-description"
+            id="winDescription"
+        >
+
+            Các em đã giải mã được từ khóa bí mật.
+            Hãy cùng củng cố lại những kiến thức quan trọng
+            về vòng lặp <b>for</b> và hàm <b>range()</b>.
+
+        </div>
+
+
+
+        <div class="summary">
+
+
+            <div class="summary-item">
+
+                <b>FOR:</b>
+                thực hiện lặp lại một khối lệnh.
+
+            </div>
+
+
+            <div class="summary-item">
+
+                <b>range(n):</b>
+                tạo dãy từ 0 đến n − 1.
+
+            </div>
+
+
+            <div class="summary-item">
+
+                <b>range(a,b):</b>
+                bắt đầu từ a và dừng trước b.
+
+            </div>
+
+
+            <div class="summary-item">
+
+                <b>Biến lặp:</b>
+                lần lượt nhận các giá trị trong dãy.
+
+            </div>
+
+
+            <div class="summary-item">
+
+                <b>IN:</b>
+                liên kết biến lặp với dãy giá trị.
+
+            </div>
+
+
+            <div class="summary-item">
+
+                <b>Thụt lề:</b>
+                xác định các câu lệnh thuộc thân vòng lặp.
+
+            </div>
+
+
+        </div>
+
+
+
+        <button
+            class="close-win"
+            onclick="closeWin()"
+        >
+
+            TIẾP TỤC
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+/* =========================================================
+   DỮ LIỆU 8 CÂU HỎI
+========================================================= */
+
+const questions = [
+
+
+    /* ================= CÂU 1 ================= */
+
+    {
+
+        question:
+            "Trong Python, việc thực hiện lặp đi lặp lại một khối lệnh được gọi bằng từ khóa nào?",
+
+        answer:
+            "LẶP",
+
+        accepted:
+            [
+                "lap",
+                "laplai"
+            ],
+
+        hint:
+            "Đáp án gồm 3 chữ cái. Đây cũng chính là ý nghĩa cơ bản của cấu trúc for.",
+
+        explain:
+            "Lệnh for được dùng để LẶP lại một khối lệnh theo một dãy giá trị.",
+
+        secretIndex:
+            0
+
+    },
+
+
+
+    /* ================= CÂU 2 ================= */
+
+    {
+
+        question:
+            "Trong Python, hàm nào thường được sử dụng cùng lệnh for để tạo ra một dãy số?",
+
+        answer:
+            "RANGE",
+
+        accepted:
+            [
+                "range"
+            ],
+
+        hint:
+            "Đáp án có 5 chữ cái và thường xuất hiện trong cấu trúc: for k in ...",
+
+        explain:
+            "range() thường được dùng để tạo dãy giá trị cho vòng lặp for.",
+
+        secretIndex:
+            1
+
+    },
+
+
+
+    /* ================= CÂU 3 ================= */
+
+    {
+
+        question:
+            "Các giá trị được tạo bởi range(a, b) nằm trong một ______ bắt đầu từ a và kết thúc trước b.",
+
+        answer:
+            "PHẠM VI",
+
+        accepted:
+            [
+                "phamvi"
+            ],
+
+        hint:
+            "Đáp án gồm 2 tiếng, nói về khoảng các giá trị mà vòng lặp sẽ xét.",
+
+        explain:
+            "range(a,b) xác định PHẠM VI các giá trị từ a đến b − 1.",
+
+        secretIndex:
+            0
+
+    },
+
+
+
+    /* ================= CÂU 4 ================= */
+
+    {
+
+        question:
+            "Các câu lệnh nằm trong thân của vòng lặp for phải được trình bày như thế nào so với dòng lệnh for?",
+
+        answer:
+            "THỤT LỀ",
+
+        accepted:
+            [
+                "thutle",
+                "thutvao"
+            ],
+
+        hint:
+            "Nếu trình bày sai điều này, Python có thể báo lỗi hoặc hiểu sai cấu trúc chương trình.",
+
+        explain:
+            "Các câu lệnh thuộc thân vòng lặp phải được THỤT LỀ so với dòng for.",
+
+        secretIndex:
+            0
+
+    },
+
+
+
+    /* ================= CÂU 5 ================= */
+
+    {
+
+        question:
+            "Từ khóa nào được sử dụng để bắt đầu một vòng lặp xác định trong Python?",
+
+        answer:
+            "FOR",
+
+        accepted:
+            [
+                "for"
+            ],
+
+        hint:
+            "Đáp án chỉ gồm 3 chữ cái và chính là cấu trúc các em đang học.",
+
+        explain:
+            "FOR là từ khóa mở đầu cấu trúc lặp xác định trong Python.",
+
+        secretIndex:
+            2
+
+    },
+
+
+
+    /* ================= CÂU 6 ================= */
+
+    {
+
+        question:
+            "Trong câu lệnh for k in range(n):, k được gọi là gì?",
+
+        answer:
+            "BIẾN LẶP",
+
+        accepted:
+            [
+                "bienlap",
+                "bien"
+            ],
+
+        hint:
+            "k lần lượt nhận các giá trị 0, 1, 2, ... do range() tạo ra.",
+
+        explain:
+            "k là BIẾN LẶP, lần lượt nhận từng giá trị của dãy.",
+
+        secretIndex:
+            1
+
+    },
+
+
+
+    /* ================= CÂU 7 ================= */
+
+    {
+
+        question:
+            "Trong cấu trúc for k in range(n):, từ khóa nào nằm giữa biến k và range(n)?",
+
+        answer:
+            "IN",
+
+        accepted:
+            [
+                "in"
+            ],
+
+        hint:
+            "Đáp án chỉ gồm 2 chữ cái.",
+
+        explain:
+            "IN liên kết biến lặp với dãy giá trị mà vòng lặp sẽ duyệt qua.",
+
+        secretIndex:
+            1
+
+    },
+
+
+
+    /* ================= CÂU 8 ================= */
+
+    {
+
+        question:
+            "Trong Python, range() được gọi là một gì?",
+
+        answer:
+            "HÀM",
+
+        accepted:
+            [
+                "ham",
+                "function"
+            ],
+
+        hint:
+            "range(), print() và input() đều thuộc loại này.",
+
+        explain:
+            "range() là một HÀM dựng sẵn của Python, thường được dùng để tạo dãy giá trị.",
+
+        secretIndex:
+            0
+
+    }
+
+];
+
+
+/* =========================================================
+   BIẾN TOÀN CỤC
+========================================================= */
+
+let currentQuestion =
+    0;
+
+
+let timerInterval =
+    null;
+
+
+let toastTimeout =
+    null;
+
+
+/*
+   true khi học sinh đã đoán đúng
+   từ khóa hàng dọc
+*/
+
+let secretSolved =
+    false;
+
+
+/*
+   tránh mở màn hình chiến thắng
+   nhiều lần
+*/
+
+let gameCompleted =
+    false;
+
+
+/* =========================================================
+   STATE TỪNG CÂU
+========================================================= */
+
+const states =
+    questions.map(
+
+        function(){
+
+            return{
+
+                solved:
+                    false,
+
+                remaining:
+                    25,
+
+                running:
+                    false,
+
+                timeout:
+                    false,
+
+                hintShown:
+                    false
+
+            };
+
+        }
+
+    );
+
+
+/* =========================================================
+   CẤU HÌNH Ô CHỮ
+========================================================= */
+
+const COLUMN_COUNT =
+    12;
+
+
+const SECRET_COLUMN =
+    5;
+
+
+/* =========================================================
+   NORMALIZE
+========================================================= */
+
+function normalizeText(
+    text
+){
+
+    return text
+
+        .toLowerCase()
+
+        .normalize(
+            "NFD"
+        )
+
+        .replace(
+            /[\u0300-\u036f]/g,
+            ""
+        )
+
+        .replace(
+            /đ/g,
+            "d"
+        )
+
+        .replace(
+            /[^a-z0-9]/g,
+            ""
+        );
+
+}
+
+
+/* =========================================================
+   KHỞI TẠO
+========================================================= */
+
+window.addEventListener(
+
+    "DOMContentLoaded",
+
+    function(){
+
+
+        renderCrossword();
+
+
+        selectQuestion(
+            0,
+            false
+        );
+
+
+        updateNavigation();
+
+
+        updateProgress();
+
+
+    }
+
+);
+
+
+/* =========================================================
+   CHỌN CÂU
+========================================================= */
+
+function selectQuestion(
+    index,
+    pauseOld = true
+){
+
+    if(
+        pauseOld &&
+        index !==
+        currentQuestion
+    ){
+
+        stopTimer();
+
+    }
+
+
+    currentQuestion =
+        index;
+
+
+    const question =
+        questions[index];
+
+
+    const state =
+        states[index];
+
+
+    document
+        .getElementById(
+            "questionTag"
+        )
+        .textContent =
+
+        "CÂU " +
+        (index + 1);
+
+
+    document
+        .getElementById(
+            "questionText"
+        )
+        .textContent =
+
+        question.question;
+
+
+    /* GỢI Ý */
+
+    const hintBox =
+        document
+            .getElementById(
+                "hintBox"
+            );
+
+
+    if(
+        state.hintShown
+    ){
+
+        hintBox.textContent =
+
+            "💡 " +
+            question.hint;
+
+
+        hintBox
+            .classList
+            .add(
+                "show"
+            );
+
+    }
+
+    else{
+
+        hintBox.textContent =
+            "";
+
+
+        hintBox
+            .classList
+            .remove(
+                "show"
+            );
+
+    }
+
+
+    /* INPUT */
+
+    const input =
+        document
+            .getElementById(
+                "answerInput"
+            );
+
+
+    input.value =
+        "";
+
+
+    if(
+        state.solved
+    ){
+
+        input.value =
+            question.answer;
+
+
+        input.disabled =
+            true;
+
+    }
+
+    else{
+
+        input.disabled =
+            false;
+
+
+        setTimeout(
+
+            function(){
+
+                input.focus();
+
+            },
+
+            40
+
+        );
+
+    }
+
+
+    updateTimer();
+
+
+    updateNavigation();
+
+
+    renderCrossword();
+
+}
+
+
+/* =========================================================
+   GỢI Ý
+========================================================= */
+
+function showHint(){
+
+    const state =
+        states[
+            currentQuestion
+        ];
+
+
+    if(
+        state.solved
+    ){
+
+        return;
+
+    }
+
+
+    state.hintShown =
+        !state.hintShown;
+
+
+    const box =
+        document
+            .getElementById(
+                "hintBox"
+            );
+
+
+    if(
+        state.hintShown
+    ){
+
+        box.textContent =
+
+            "💡 " +
+            questions[
+                currentQuestion
+            ].hint;
+
+
+        box.classList.add(
+            "show"
+        );
+
+    }
+
+    else{
+
+        box.classList.remove(
+            "show"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   TIMER
+========================================================= */
+
+function toggleTimer(){
+
+    const state =
+        states[
+            currentQuestion
+        ];
+
+
+    if(
+        state.solved
+    ){
+
+        return;
+
+    }
+
+
+    /*
+       Đang chạy -> tạm dừng
+    */
+
+    if(
+        state.running
+    ){
+
+        stopTimer();
+
+        return;
+
+    }
+
+
+    /*
+       Hết giờ -> bắt đầu lại 25 giây
+    */
+
+    if(
+        state.remaining <= 0
+    ){
+
+        state.remaining =
+            25;
+
+
+        state.timeout =
+            false;
+
+    }
+
+
+    /*
+       Dừng trạng thái timer khác
+    */
+
+    states.forEach(
+
+        function(item){
+
+            item.running =
+                false;
+
+        }
+
+    );
+
+
+    if(
+        timerInterval
+    ){
+
+        clearInterval(
+            timerInterval
+        );
+
+    }
+
+
+    state.running =
+        true;
+
+
+    updateTimer();
+
+
+    updateNavigation();
+
+
+    timerInterval =
+        setInterval(
+
+            function(){
+
+
+                state.remaining--;
+
+
+                if(
+                    state.remaining <= 0
+                ){
+
+                    state.remaining =
+                        0;
+
+
+                    state.running =
+                        false;
+
+
+                    state.timeout =
+                        true;
+
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+
+                    timerInterval =
+                        null;
+
+
+                    showToast(
+
+                        "⏰",
+
+                        "HẾT GIỜ!",
+
+                        "Nhóm có thể tiếp tục suy nghĩ hoặc bấm THỬ LẠI để nhận thêm 25 giây.",
+
+                        "orange"
+
+                    );
+
+                }
+
+
+                updateTimer();
+
+
+                updateNavigation();
+
+
+            },
+
+            1000
+
+        );
+
+}
+
+
+/* =========================================================
+   STOP TIMER
+========================================================= */
+
+function stopTimer(){
+
+    if(
+        timerInterval
+    ){
+
+        clearInterval(
+            timerInterval
+        );
+
+
+        timerInterval =
+            null;
+
+    }
+
+
+    states.forEach(
+
+        function(state){
+
+            state.running =
+                false;
+
+        }
+
+    );
+
+
+    updateTimer();
+
+
+    updateNavigation();
+
+}
+
+
+/* =========================================================
+   TIMER UI
+========================================================= */
+
+function updateTimer(){
+
+    const state =
+        states[
+            currentQuestion
+        ];
+
+
+    const number =
+        document
+            .getElementById(
+                "timerNumber"
+            );
+
+
+    const ring =
+        document
+            .getElementById(
+                "timerRing"
+            );
+
+
+    const button =
+        document
+            .getElementById(
+                "timerButton"
+            );
+
+
+    number.textContent =
+        state.remaining;
+
+
+    const percentage =
+        Math.max(
+
+            0,
+
+            state.remaining /
+            25 *
+            100
+
+        );
+
+
+    ring.style.setProperty(
+
+        "--progress",
+
+        percentage + "%"
+
+    );
+
+
+    ring.classList.remove(
+
+        "warning",
+
+        "danger"
+
+    );
+
+
+    if(
+        state.remaining <= 5
+    ){
+
+        ring.classList.add(
+            "danger"
+        );
+
+    }
+
+    else if(
+        state.remaining <= 10
+    ){
+
+        ring.classList.add(
+            "warning"
+        );
+
+    }
+
+
+    if(
+        state.solved
+    ){
+
+        button.textContent =
+            "✓ ĐÃ XONG";
+
+
+        button.disabled =
+            true;
+
+    }
+
+    else{
+
+        button.disabled =
+            false;
+
+
+        if(
+            state.running
+        ){
+
+            button.textContent =
+                "⏸ TẠM DỪNG";
+
+        }
+
+        else if(
+            state.remaining <= 0
+        ){
+
+            button.textContent =
+                "↻ THỬ LẠI";
+
+        }
+
+        else if(
+            state.remaining < 25
+        ){
+
+            button.textContent =
+                "▶ TIẾP TỤC";
+
+        }
+
+        else{
+
+            button.textContent =
+                "▶ 25 GIÂY";
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   TRẢ LỜI HÀNG NGANG
+========================================================= */
+
+function submitAnswer(){
+
+    const state =
+        states[
+            currentQuestion
+        ];
+
+
+    if(
+        state.solved
+    ){
+
+        return;
+
+    }
+
+
+    const input =
+        document
+            .getElementById(
+                "answerInput"
+            );
+
+
+    const answer =
+        normalizeText(
+            input.value
+        );
+
+
+    if(
+        answer === ""
+    ){
+
+        showToast(
+
+            "💭",
+
+            "CHƯA CÓ ĐÁP ÁN",
+
+            "Hãy nhập từ khóa mà nhóm lựa chọn.",
+
+            "orange"
+
+        );
+
+
+        input.focus();
+
+
+        return;
+
+    }
+
+
+    const question =
+        questions[
+            currentQuestion
+        ];
+
+
+    const correct =
+        question
+            .accepted
+            .includes(
+                answer
+            );
+
+
+    /*
+       ĐÚNG
+    */
+
+    if(
+        correct
+    ){
+
+        state.solved =
+            true;
+
+
+        state.running =
+            false;
+
+
+        state.timeout =
+            false;
+
+
+        if(
+            timerInterval
+        ){
+
+            clearInterval(
+                timerInterval
+            );
+
+
+            timerInterval =
+                null;
+
+        }
+
+
+        input.value =
+            question.answer;
+
+
+        input.disabled =
+            true;
+
+
+        showToast(
+
+            "✅",
+
+            "CHÍNH XÁC!",
+
+            question.explain,
+
+            "green"
+
+        );
+
+
+        renderCrossword();
+
+
+        updateNavigation();
+
+
+        updateProgress();
+
+
+        updateTimer();
+
+
+        /*
+           Nếu giải đủ 8 hàng ngang
+           và chưa đoán hàng dọc trước đó
+        */
+
+        if(
+
+            states.every(
+
+                function(item){
+
+                    return item.solved;
+
+                }
+
+            )
+
+            &&
+
+            !secretSolved
+
+        ){
+
+            secretSolved =
+                true;
+
+
+            lockSecretAnswer();
+
+
+            revealFinalWord();
+
+
+            setTimeout(
+
+                function(){
+
+                    finishGame(
+                        false
+                    );
+
+                },
+
+                650
+
+            );
+
+        }
+
+    }
+
+
+    /*
+       SAI
+    */
+
+    else{
+
+        showToast(
+
+            "🤔",
+
+            "CHƯA CHÍNH XÁC",
+
+            "Hãy đọc lại câu hỏi hoặc sử dụng GỢI Ý để suy luận thêm.",
+
+            "red"
+
+        );
+
+
+        input.select();
+
+    }
+
+}
+
+
+/* =========================================================
+   ENTER HÀNG NGANG
+========================================================= */
+
+document
+    .getElementById(
+        "answerInput"
+    )
+    .addEventListener(
+
+        "keydown",
+
+        function(event){
+
+            if(
+                event.key ===
+                "Enter"
+            ){
+
+                submitAnswer();
+
+            }
+
+        }
+
+    );
+
+
+/* =========================================================
+   TRẢ LỜI HÀNG DỌC SỚM
+========================================================= */
+
+function submitSecretAnswer(){
+
+    if(
+        secretSolved
+    ){
+
+        return;
+
+    }
+
+
+    const input =
+        document
+            .getElementById(
+                "secretInput"
+            );
+
+
+    const answer =
+        normalizeText(
+            input.value
+        );
+
+
+    /*
+       CHƯA NHẬP
+    */
+
+    if(
+        answer === ""
+    ){
+
+        showToast(
+
+            "🔐",
+
+            "CHƯA CÓ DỰ ĐOÁN",
+
+            "Hãy nhập từ khóa hàng dọc mà nhóm dự đoán.",
+
+            "orange"
+
+        );
+
+
+        input.focus();
+
+
+        return;
+
+    }
+
+
+    /*
+       ĐÚNG: LẬP TRÌNH
+    */
+
+    if(
+        answer ===
+        "laptrinh"
+    ){
+
+        secretSolved =
+            true;
+
+
+        stopTimer();
+
+
+        revealFinalWord();
+
+
+        lockSecretAnswer();
+
+
+        /*
+           kiểm tra có phải đoán sớm
+        */
+
+        const solvedCount =
+            states.filter(
+
+                function(state){
+
+                    return state.solved;
+
+                }
+
+            ).length;
+
+
+        const early =
+            solvedCount <
+            questions.length;
+
+
+        showToast(
+
+            "🔓",
+
+            "GIẢI MÃ THÀNH CÔNG!",
+
+            early
+            ?
+            "Xuất sắc! Nhóm đã tìm ra từ khóa LẬP TRÌNH trước khi mở hết các hàng ngang."
+            :
+            "Nhóm đã tìm chính xác từ khóa hàng dọc LẬP TRÌNH.",
+
+            "green"
+
+        );
+
+
+        launchConfetti();
+
+
+        setTimeout(
+
+            function(){
+
+                finishGame(
+                    early
+                );
+
+            },
+
+            1500
+
+        );
+
+    }
+
+
+    /*
+       SAI
+    */
+
+    else{
+
+        showToast(
+
+            "🔐",
+
+            "CHƯA ĐÚNG TỪ KHÓA",
+
+            "Hãy tiếp tục giải thêm các hàng ngang để có thêm chữ gợi ý rồi thử lại.",
+
+            "red"
+
+        );
+
+
+        input.select();
+
+    }
+
+}
+
+
+/* =========================================================
+   ENTER HÀNG DỌC
+========================================================= */
+
+document
+    .getElementById(
+        "secretInput"
+    )
+    .addEventListener(
+
+        "keydown",
+
+        function(event){
+
+            if(
+                event.key ===
+                "Enter"
+            ){
+
+                submitSecretAnswer();
+
+            }
+
+        }
+
+    );
+
+
+/* =========================================================
+   KHÓA PHẦN HÀNG DỌC
+========================================================= */
+
+function lockSecretAnswer(){
+
+    const input =
+        document
+            .getElementById(
+                "secretInput"
+            );
+
+
+    const button =
+        document
+            .getElementById(
+                "secretButton"
+            );
+
+
+    input.value =
+        "LẬP TRÌNH";
+
+
+    input.disabled =
+        true;
+
+
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "✓ CHÍNH XÁC";
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function updateNavigation(){
+
+    const buttons =
+        document
+            .querySelectorAll(
+                ".question-button"
+            );
+
+
+    buttons.forEach(
+
+        function(
+            button,
+            index
+        ){
+
+
+            button.classList.remove(
+
+                "active",
+
+                "correct",
+
+                "timeout"
+
+            );
+
+
+            const state =
+                states[index];
+
+
+            if(
+                state.solved
+            ){
+
+                button
+                    .classList
+                    .add(
+                        "correct"
+                    );
+
+            }
+
+            else if(
+                state.timeout
+            ){
+
+                button
+                    .classList
+                    .add(
+                        "timeout"
+                    );
+
+            }
+
+
+            if(
+                index ===
+                currentQuestion
+            ){
+
+                button
+                    .classList
+                    .add(
+                        "active"
+                    );
+
+            }
+
+        }
+
+    );
+
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+function updateProgress(){
+
+    const solved =
+        states.filter(
+
+            function(state){
+
+                return state.solved;
+
+            }
+
+        ).length;
+
+
+    document
+        .getElementById(
+            "progressText"
+        )
+        .textContent =
+
+        solved +
+        " / " +
+        questions.length;
+
+}
+
+
+/* =========================================================
+   RENDER CROSSWORD
+========================================================= */
+
+function renderCrossword(){
+
+    const container =
+        document
+            .getElementById(
+                "crossword"
+            );
+
+
+    container.innerHTML =
+        "";
+
+
+    questions.forEach(
+
+        function(
+            question,
+            index
+        ){
+
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "cross-row";
+
+
+            if(
+                index ===
+                currentQuestion
+            ){
+
+                row.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            if(
+                states[index].solved
+            ){
+
+                row.classList.add(
+                    "solved"
+                );
+
+            }
+
+
+            row.addEventListener(
+
+                "click",
+
+                function(){
+
+                    selectQuestion(
+                        index
+                    );
+
+                }
+
+            );
+
+
+            /*
+               SỐ HÀNG
+            */
+
+            const number =
+                document.createElement(
+                    "div"
+                );
+
+
+            number.className =
+                "row-number";
+
+
+            number.textContent =
+                index + 1;
+
+
+            /*
+               GRID
+            */
+
+            const grid =
+                document.createElement(
+                    "div"
+                );
+
+
+            grid.className =
+                "letter-grid";
+
+
+            /*
+               bỏ khoảng trắng
+            */
+
+            const letters =
+                Array.from(
+
+                    question.answer
+                        .replace(
+                            /\s/g,
+                            ""
+                        )
+
+                );
+
+
+            /*
+               căn chữ bí mật cùng cột
+            */
+
+            const startColumn =
+                SECRET_COLUMN -
+                question.secretIndex;
+
+
+            for(
+
+                let column = 0;
+
+                column <
+                COLUMN_COUNT;
+
+                column++
+
+            ){
+
+
+                const cell =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                const letterIndex =
+                    column -
+                    startColumn;
+
+
+                if(
+
+                    letterIndex >= 0
+                    &&
+                    letterIndex <
+                    letters.length
+
+                ){
+
+
+                    cell.className =
+                        "letter-cell normal";
+
+
+                    if(
+                        column ===
+                        SECRET_COLUMN
+                    ){
+
+                        cell
+                            .classList
+                            .add(
+                                "secret"
+                            );
+
+                    }
+
+
+                    if(
+                        states[index]
+                            .solved
+                    ){
+
+                        cell.textContent =
+                            letters[
+                                letterIndex
+                            ];
+
+                    }
+
+                    else{
+
+                        cell.textContent =
+                            "";
+
+                    }
+
+                }
+
+                else{
+
+                    cell.className =
+                        "letter-cell blank";
+
+                }
+
+
+                grid.appendChild(
+                    cell
+                );
+
+            }
+
+
+            row.appendChild(
+                number
+            );
+
+
+            row.appendChild(
+                grid
+            );
+
+
+            container.appendChild(
+                row
+            );
+
+        }
+
+    );
+
+
+    updateSecretWord();
+
+}
+
+
+/* =========================================================
+   UPDATE TỪ KHÓA HÀNG DỌC
+========================================================= */
+
+function updateSecretWord(){
+
+    const element =
+        document
+            .getElementById(
+                "secretWord"
+            );
+
+
+    /*
+       Nếu đã đoán đúng hàng dọc
+       thì luôn giữ LẬP TRÌNH
+    */
+
+    if(
+        secretSolved
+    ){
+
+        element.textContent =
+            "LẬP TRÌNH";
+
+
+        element
+            .classList
+            .add(
+                "complete"
+            );
+
+
+        return;
+
+    }
+
+
+    const secretLetters = [
+
+        "L",
+        "A",
+        "P",
+        "T",
+        "R",
+        "I",
+        "N",
+        "H"
+
+    ];
+
+
+    const visible =
+        secretLetters.map(
+
+            function(
+                letter,
+                index
+            ){
+
+                return states[index]
+                    .solved
+                    ?
+                    letter
+                    :
+                    "?";
+
+            }
+
+        );
+
+
+    element.textContent =
+        visible.join(
+            " "
+        );
+
+}
+
+
+/* =========================================================
+   REVEAL FINAL WORD
+========================================================= */
+
+function revealFinalWord(){
+
+    const element =
+        document
+            .getElementById(
+                "secretWord"
+            );
+
+
+    element.textContent =
+        "LẬP TRÌNH";
+
+
+    element
+        .classList
+        .add(
+            "complete"
+        );
+
+}
+
+
+/* =========================================================
+   HOÀN THÀNH GAME
+========================================================= */
+
+function finishGame(
+    early
+){
+
+    if(
+        gameCompleted
+    ){
+
+        return;
+
+    }
+
+
+    gameCompleted =
+        true;
+
+
+    stopTimer();
+
+
+    revealFinalWord();
+
+
+    launchConfetti();
+
+
+    const title =
+        document
+            .getElementById(
+                "winTitle"
+            );
+
+
+    const description =
+        document
+            .getElementById(
+                "winDescription"
+            );
+
+
+    if(
+        early
+    ){
+
+        title.textContent =
+            "ĐOÁN TỪ KHÓA XUẤT SẮC!";
+
+
+        description.innerHTML =
+
+            "Các em đã suy luận được từ khóa <b>LẬP TRÌNH</b> trước khi mở hết các hàng ngang. "
+            +
+            "Bây giờ hãy cùng củng cố lại những kiến thức quan trọng về vòng lặp <b>for</b> và hàm <b>range()</b>.";
+
+    }
+
+    else{
+
+        title.textContent =
+            "CHÚC MỪNG CÁC EM!";
+
+
+        description.innerHTML =
+
+            "Các em đã giải mã toàn bộ ô chữ và tìm ra từ khóa <b>LẬP TRÌNH</b>. "
+            +
+            "Hãy cùng củng cố lại những kiến thức quan trọng về vòng lặp <b>for</b> và hàm <b>range()</b>.";
+
+    }
+
+
+    document
+        .getElementById(
+            "winOverlay"
+        )
+        .classList
+        .add(
+            "show"
+        );
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(
+    icon,
+    title,
+    message,
+    color
+){
+
+    const toast =
+        document
+            .getElementById(
+                "toast"
+            );
+
+
+    document
+        .getElementById(
+            "toastIcon"
+        )
+        .textContent =
+        icon;
+
+
+    document
+        .getElementById(
+            "toastTitle"
+        )
+        .textContent =
+        title;
+
+
+    document
+        .getElementById(
+            "toastText"
+        )
+        .textContent =
+        message;
+
+
+    if(
+        color ===
+        "red"
+    ){
+
+        toast.style.borderColor =
+            "#df5757";
+
+    }
+
+    else if(
+        color ===
+        "orange"
+    ){
+
+        toast.style.borderColor =
+            "#eea337";
+
+    }
+
+    else{
+
+        toast.style.borderColor =
+            "#52b982";
+
+    }
+
+
+    toast
+        .classList
+        .add(
+            "show"
+        );
+
+
+    if(
+        toastTimeout
+    ){
+
+        clearTimeout(
+            toastTimeout
+        );
+
+    }
+
+
+    toastTimeout =
+        setTimeout(
+
+            function(){
+
+                toast
+                    .classList
+                    .remove(
+                        "show"
+                    );
+
+            },
+
+            1900
+
+        );
+
+}
+
+
+/* =========================================================
+   RESET GAME
+========================================================= */
+
+function resetGame(){
+
+    stopTimer();
+
+
+    states.forEach(
+
+        function(state){
+
+            state.solved =
+                false;
+
+
+            state.remaining =
+                25;
+
+
+            state.running =
+                false;
+
+
+            state.timeout =
+                false;
+
+
+            state.hintShown =
+                false;
+
+        }
+
+    );
+
+
+    currentQuestion =
+        0;
+
+
+    secretSolved =
+        false;
+
+
+    gameCompleted =
+        false;
+
+
+    /*
+       RESET HÀNG DỌC
+    */
+
+    const secretInput =
+        document
+            .getElementById(
+                "secretInput"
+            );
+
+
+    secretInput.value =
+        "";
+
+
+    secretInput.disabled =
+        false;
+
+
+    const secretButton =
+        document
+            .getElementById(
+                "secretButton"
+            );
+
+
+    secretButton.disabled =
+        false;
+
+
+    secretButton.textContent =
+        "🔐 TRẢ LỜI HÀNG DỌC";
+
+
+    const secretWord =
+        document
+            .getElementById(
+                "secretWord"
+            );
+
+
+    secretWord
+        .classList
+        .remove(
+            "complete"
+        );
+
+
+    /*
+       RESET WIN
+    */
+
+    document
+        .getElementById(
+            "winOverlay"
+        )
+        .classList
+        .remove(
+            "show"
+        );
+
+
+    /*
+       RESET TOAST
+    */
+
+    if(
+        toastTimeout
+    ){
+
+        clearTimeout(
+            toastTimeout
+        );
+
+    }
+
+
+    document
+        .getElementById(
+            "toast"
+        )
+        .classList
+        .remove(
+            "show"
+        );
+
+
+    renderCrossword();
+
+
+    updateProgress();
+
+
+    selectQuestion(
+        0,
+        false
+    );
+
+}
+
+
+/* =========================================================
+   CLOSE WIN
+========================================================= */
+
+function closeWin(){
+
+    document
+        .getElementById(
+            "winOverlay"
+        )
+        .classList
+        .remove(
+            "show"
+        );
+
+}
+
+
+/* =========================================================
+   CONFETTI
+========================================================= */
+
+function launchConfetti(){
+
+    const colors = [
+
+        "#ffbe0b",
+
+        "#3a86ff",
+
+        "#8338ec",
+
+        "#fb5607",
+
+        "#06d6a0",
+
+        "#ef476f"
+
+    ];
+
+
+    for(
+
+        let i = 0;
+
+        i < 120;
+
+        i++
+
+    ){
+
+
+        const confetti =
+            document.createElement(
+                "div"
+            );
+
+
+        confetti.className =
+            "confetti";
+
+
+        confetti.style.left =
+            Math.random() *
+            100 +
+            "vw";
+
+
+        confetti.style.background =
+
+            colors[
+
+                Math.floor(
+
+                    Math.random() *
+                    colors.length
+
+                )
+
+            ];
+
+
+        confetti.style.animationDuration =
+
+            (
+                2.4 +
+                Math.random() *
+                2.2
+            )
+            +
+            "s";
+
+
+        confetti.style.animationDelay =
+
+            (
+                Math.random() *
+                .45
+            )
+            +
+            "s";
+
+
+        document
+            .body
+            .appendChild(
+                confetti
+            );
+
+
+        setTimeout(
+
+            function(){
+
+                confetti.remove();
+
+            },
+
+            5200
+
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FULLSCREEN
+========================================================= */
+
+function toggleFullscreen(){
+
+    if(
+        !document.fullscreenElement
+    ){
+
+        document
+            .documentElement
+            .requestFullscreen()
+            .catch(
+                function(){}
+            );
+
+    }
+
+    else{
+
+        document
+            .exitFullscreen();
+
+    }
+
+}
+
+
+/* =========================================================
+   ESC
+========================================================= */
+
+document.addEventListener(
+
+    "keydown",
+
+    function(event){
+
+        if(
+            event.key ===
+            "Escape"
+        ){
+
+            closeWin();
+
+        }
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>
